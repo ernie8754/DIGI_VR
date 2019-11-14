@@ -14,6 +14,7 @@ public class Ally : SummonObj
     }
     public enum State
     {
+        BIRTH,
         FIND,
         MOVE,
         ATTACK,
@@ -24,6 +25,9 @@ public class Ally : SummonObj
     {
         switch (state)
         {
+            case State.BIRTH:
+                BirthBehavior();
+                break;
             case State.FIND:
                 if (Target == null)
                 {
@@ -42,6 +46,7 @@ public class Ally : SummonObj
                 }
                 break;
             case State.ATTACK:
+                AttackBehavior();
                 break;
             case State.IDLE:
                 break;
@@ -63,4 +68,6 @@ public class Ally : SummonObj
     {
         throw new System.NotImplementedException();
     }
+    public virtual void AttackBehavior() { }
+    public virtual void BirthBehavior() { }
 }
