@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class Ally : SummonObj
 {
     private NavMeshAgent agent;
-    private void Start()
+    void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.speed = this.moveSpeed;
@@ -21,7 +21,7 @@ public class Ally : SummonObj
         IDLE
     }
     public State state;
-    private void Update()
+    void Update()
     {
         switch (state)
         {
