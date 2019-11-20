@@ -59,5 +59,6 @@ public class Macrophage : Ally
     public override void AttackBehavior()
     {
         ani.Play("attach");
+        Target.hurt(ATK);
     }
 }

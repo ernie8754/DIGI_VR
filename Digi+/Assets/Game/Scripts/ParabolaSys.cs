@@ -70,7 +70,7 @@ public class ParabolaSys : MonoBehaviour
         {
             lastPos = nextPos = CurrentHand.position;
             int i = 0;
-            while (nextPos.y > 0 && (i < MaxPoint))
+            while (nextPos.y > 7 && (i < MaxPoint))
             {
                 if (pointList.Count <= i)
                 {
@@ -102,6 +102,7 @@ public class ParabolaSys : MonoBehaviour
                 HitPoint = pointList[pointList.Count - 1];
                 PointEffect.SetActive(true);
                 PointEffect.transform.position = HitPoint;
+                print(HitPoint);
             }
             else
             {
