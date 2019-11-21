@@ -27,6 +27,7 @@ public class ParabolaSys : MonoBehaviour
     public float Distence;//水平位移
     public float Grity;//垂直位移
     public float CheckRange;//检测位置是否存在障碍物
+    public Vector3 hitPoint { get { return HitPoint; } }
  
     public void Awake()
     {
@@ -70,7 +71,7 @@ public class ParabolaSys : MonoBehaviour
         {
             lastPos = nextPos = CurrentHand.position;
             int i = 0;
-            while (nextPos.y > 7 && (i < MaxPoint))
+            while (nextPos.y > 8 && (i < MaxPoint))
             {
                 if (pointList.Count <= i)
                 {
@@ -102,7 +103,7 @@ public class ParabolaSys : MonoBehaviour
                 HitPoint = pointList[pointList.Count - 1];
                 PointEffect.SetActive(true);
                 PointEffect.transform.position = HitPoint;
-                print(HitPoint);
+                //print(HitPoint);
             }
             else
             {
@@ -169,6 +170,15 @@ public class ParabolaSys : MonoBehaviour
             JumpPoint(HitPoint);
         }
         CurrentHand = null;
+    }
+    public Vector3 hitPointCompute()
+    {
+        ray.origin = CurrentHand.position;
+        Vector3 dir = HitPoint - CurrentHand.position;
+        ray.direction = dir;
+
+            return HitPoint;
+        throw new System.ArgumentException("Not hit the floor", "Wrong Call");
     }
     /// <summary>
     /// 跳到指定的点

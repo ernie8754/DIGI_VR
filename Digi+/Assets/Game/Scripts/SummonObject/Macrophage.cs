@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Macrophage : Ally
 {
-    public Animator ani;
+    public Animation ani;
     private NavMeshAgent agent;
     void Start()
     {

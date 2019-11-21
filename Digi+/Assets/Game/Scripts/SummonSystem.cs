@@ -15,9 +15,13 @@ public class SummonSystem : MonoBehaviour
     public State state;
     public Camera cam;
     public Ally summmm;
+    public ParabolaSys paraSys;
+    public OVRInput.Controller controller;
+
     private Vector3 mouseTarget;
     private Ally SummonObj;
     private Enemy EneObj;
+    private bool IsRightGridPress = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,14 +31,19 @@ public class SummonSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //print(Input.GetAxis("Oculus_CrossPlatform_PrimaryHandTrigger"));
+        //print(Input.GetButton("Oculus_CrossPlatform_PrimaryIndexTrigger"));
+        //print(OVRInput.Get(OVRInput.Button.One, controller));
         switch (state)
         {
             case State.IDLE:
                 toAimming(summmm);
                 break;
             case State.AIMMING:
-                if (Input.GetMouseButtonDown(0))
+                if (IsRightGridPress)
                 {
+                    IsRightGridPress = false;
+                    //print("do");
                     if (MousePosition())
                     {
                         state = State.SUMMON;
@@ -76,6 +85,11 @@ public class SummonSystem : MonoBehaviour
         EneObj = obj;
         state = State.ENEMY_AIMMING;
     }
+    public void rightGridPress()
+    {
+        
+        IsRightGridPress = true;
+    }
     #region Summon
     public void summon(Ally obj, Vector3 pos)
     {
@@ -100,24 +114,8 @@ public class SummonSystem : MonoBehaviour
     #region mouse position
     public bool MousePosition()
     {
-        int ignoreLayer = 1 << 2;
-        //ignoreLayer = ~ignoreLayer;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //print(Input.mousePosition);
-        //print(Camera.main.ScreenPointToRay(Input.mousePosition));
-        RaycastHit hit=new RaycastHit();
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, ignoreLayer))
-        {
-            print(hit.transform.gameObject.tag);
-            if (hit.transform.gameObject.tag == "floor")
-            {
-                mouseTarget = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-                //Debug.DrawLine(ray.origin, hit.point, Color.green);
-                return true;
-            }
-            return false;
-        }
-        return false;
+        mouseTarget = paraSys.hitPointCompute();
+        return true;
     }
     #endregion
 }
