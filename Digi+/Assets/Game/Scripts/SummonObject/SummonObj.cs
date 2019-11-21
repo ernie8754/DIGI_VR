@@ -13,15 +13,15 @@ public abstract class SummonObj : MonoBehaviour
     public float attackAniWaitSec;
     public SummonObj Target=null;
     
-    public virtual void attack(SummonObj obj)
+    protected virtual void attack(SummonObj obj)
     {
         obj.hurt(ATK);
     }
-    public abstract void die();
+    protected abstract void die();
     public virtual void hurt(int damage)
     {
         HP -= damage;
     }
     public abstract SummonObj summon();
-    public abstract void move();
+    protected abstract void move();
 }

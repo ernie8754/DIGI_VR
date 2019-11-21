@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Enemy : SummonObj
 {
-    public override void die()
+    protected override void die()
     {
         throw new System.NotImplementedException();
     }
-    public override void move()
+    protected override void move()
     {
         throw new System.NotImplementedException();
     }

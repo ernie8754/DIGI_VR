@@ -21,44 +21,33 @@ public class Macrophage : Ally
                 BirthBehavior();
                 break;
             case State.FIND:
-                if (Target == null)
-                {
-                    Target = FightSystem.fightSystem.findTarget(this);
-                }
-                else
-                {
-                    move();
-                }
+                FindBehavior();
                 break;
             case State.MOVE:
-                if (Vector3.Distance(this.transform.position, Target.transform.position) <= AttackDistance)
-                {
-                    state = State.ATTACK;
-                    agent.isStopped = true;
-                }
+                MoveBehavior();
                 break;
             case State.ATTACK:
                 AttackBehavior();
                 break;
             case State.IDLE:
+                IdleBehavior();
                 break;
             default:
                 break;
         }
     }
-    public override void BirthBehavior()
+    protected override void BirthBehavior()
     {
          state = State.FIND;
     }
-    public override void move()
+    protected override void move()
     {
-        agent.SetDestination(Target.transform.position);
-        state = State.MOVE;
+        base.move();
         ani.Play("walk");
     }
-    public override void AttackBehavior()
+    protected override void AttackBehavior()
     {
-        ani.Play("attach");
+        ani.Play("attack");
         Target.hurt(ATK);
     }
 }

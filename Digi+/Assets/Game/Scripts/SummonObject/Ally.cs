@@ -29,36 +29,26 @@ public class Ally : SummonObj
                 BirthBehavior();
                 break;
             case State.FIND:
-                if (Target == null)
-                {
-                    Target = FightSystem.fightSystem.findTarget(this);
-                }
-                else
-                {
-                    move();
-                }
+                FindBehavior();
                 break;
             case State.MOVE:
-                if(Vector3.Distance(this.transform.position, Target.transform.position)<=AttackDistance)
-                {
-                    state = State.ATTACK;
-                    agent.isStopped = true;
-                }
+                MoveBehavior();
                 break;
             case State.ATTACK:
                 AttackBehavior();
                 break;
             case State.IDLE:
+                IdleBehavior();
                 break;
             default:
                 break;
         }
     }
-    public override void die()
+    protected override void die()
     {
         throw new System.NotImplementedException();
     }
-    public override void move()
+    protected override void move()
     {
         agent.SetDestination(Target.transform.position);
         state = State.MOVE;
@@ -68,6 +58,24 @@ public class Ally : SummonObj
     {
         throw new System.NotImplementedException();
     }
-    public virtual void AttackBehavior() { }
-    public virtual void BirthBehavior() { }
+    protected virtual void BirthBehavior() { }
+    protected virtual void FindBehavior() {
+        if (Target == null)
+        {
+            Target = FightSystem.fightSystem.findTarget(this);
+        }
+        else
+        {
+            move();
+        }
+    }
+    protected virtual void MoveBehavior() {
+        if (Vector3.Distance(this.transform.position, Target.transform.position) <= AttackDistance)
+        {
+            state = State.ATTACK;
+            agent.isStopped = true;
+        }
+    }
+    protected virtual void AttackBehavior() { }
+    protected virtual void IdleBehavior() { }
 }
