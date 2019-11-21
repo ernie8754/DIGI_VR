@@ -9,6 +9,8 @@ public abstract class SummonObj : MonoBehaviour
     public int moveSpeed;
     public int consumeEnergy;
     public int AttackDistance;
+    public float walkAniWaitSec;
+    public float attackAniWaitSec;
     public SummonObj Target=null;
     
     public virtual void attack(SummonObj obj)

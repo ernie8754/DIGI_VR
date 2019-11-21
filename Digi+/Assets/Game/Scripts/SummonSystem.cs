@@ -16,7 +16,6 @@ public class SummonSystem : MonoBehaviour
     public Camera cam;
     public Ally summmm;
     public ParabolaSys paraSys;
-    public OVRInput.Controller controller;
 
     private Vector3 mouseTarget;
     private Ally SummonObj;
