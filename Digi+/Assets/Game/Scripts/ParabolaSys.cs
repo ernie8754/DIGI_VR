@@ -176,8 +176,7 @@ public class ParabolaSys : MonoBehaviour
         ray.origin = CurrentHand.position;
         Vector3 dir = HitPoint - CurrentHand.position;
         ray.direction = dir;
-
-            return HitPoint;
+        return HitPoint;
         throw new System.ArgumentException("Not hit the floor", "Wrong Call");
     }
     /// <summary>

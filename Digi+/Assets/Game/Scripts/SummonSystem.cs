@@ -86,7 +86,7 @@ public class SummonSystem : MonoBehaviour
     }
     public void rightGridPress()
     {
-        
+        //print("d");
         IsRightGridPress = true;
     }
     #region Summon

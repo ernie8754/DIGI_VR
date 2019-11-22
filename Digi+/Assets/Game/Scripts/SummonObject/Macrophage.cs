@@ -5,8 +5,6 @@ using UnityEngine.AI;
 
 public class Macrophage : Ally
 {
-    public Animation ani;
-    private NavMeshAgent agent;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -32,22 +30,11 @@ public class Macrophage : Ally
             case State.IDLE:
                 IdleBehavior();
                 break;
+            case State.DIE:
+                die();
+                break;
             default:
                 break;
         }
-    }
-    protected override void BirthBehavior()
-    {
-         state = State.FIND;
-    }
-    protected override void move()
-    {
-        base.move();
-        ani.Play("walk");
-    }
-    protected override void AttackBehavior()
-    {
-        ani.Play("attack");
-        Target.hurt(ATK);
     }
 }

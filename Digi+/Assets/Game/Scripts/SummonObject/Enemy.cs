@@ -6,15 +6,21 @@ public class Enemy : SummonObj
 {
     protected override void die()
     {
-        throw new System.NotImplementedException();
+        ani.Play("death");
+        if (ani["death"].normalizedTime >= 1.0f)
+        {
+            FightSystem.fightSystem.deleteObj(this);
+        }
     }
-    protected override void move()
+    protected override void FindBehavior()
     {
-        throw new System.NotImplementedException();
-    }
-
-    public override SummonObj summon()
-    {
-        throw new System.NotImplementedException();
+        if (Target == null)
+        {
+            Target = FightSystem.fightSystem.findTarget(this);
+        }
+        else
+        {
+            move();
+        }
     }
 }
