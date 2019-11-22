@@ -42,7 +42,7 @@ public class SummonSystem : MonoBehaviour
                 if (IsRightGridPress)
                 {
                     IsRightGridPress = false;
-                    //print("do");
+                    print("do");
                     if (MousePosition())
                     {
                         state = State.SUMMON;

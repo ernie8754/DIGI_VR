@@ -28,6 +28,7 @@ public class ControllerTracker : MonoBehaviour {
     // Use this for initialization
     void Start () {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
+        print(trackedObj);
     }
 	
 	// Update is called once per frame

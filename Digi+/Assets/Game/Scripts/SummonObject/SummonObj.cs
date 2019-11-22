@@ -47,6 +47,7 @@ public abstract class SummonObj : MonoBehaviour
         {
             agent.SetDestination(Target.transform.position);
             ani.Play("walk");
+            state = State.MOVE;
         }
     }
     protected virtual void BirthBehavior() 

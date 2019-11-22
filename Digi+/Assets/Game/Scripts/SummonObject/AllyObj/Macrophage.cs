@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Macrophage : Ally
+public class Macrophage : Ally  //巨噬細胞
 {
     void Start()
     {
@@ -35,6 +35,29 @@ public class Macrophage : Ally
                 break;
             default:
                 break;
+        }
+    }
+    protected override void move()
+    {
+        if (Target)
+        {
+            agent.SetDestination(Target.transform.position);
+            ani.Play("walk1");
+            state = State.MOVE;
+        }
+    }
+    protected override void MoveBehavior()
+    {
+        base.MoveBehavior();
+        if (ani.IsPlaying("walk1") && ani["walk1"].normalizedTime >= 1.0f )
+        {
+            ani.Play("walk2");
+            agent.isStopped = true;
+        }
+        else if (ani.IsPlaying("walk2") && ani["walk2"].normalizedTime >= 1.0f)
+        {
+            ani.Play("walk1");
+            agent.isStopped = false;
         }
     }
 }
