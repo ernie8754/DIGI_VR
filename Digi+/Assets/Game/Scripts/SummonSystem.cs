@@ -36,10 +36,10 @@ public class SummonSystem : MonoBehaviour
         switch (state)
         {
             case State.IDLE:
-                toAimming(summmm);
+                //toAimming(summmm);
                 break;
             case State.AIMMING:
-                if (IsRightGridPress)
+                if (IsRightGridPress && SummonObj)
                 {
                     IsRightGridPress = false;
                     print("do");
@@ -52,6 +52,10 @@ public class SummonSystem : MonoBehaviour
                     {
                         state = State.IDLE;
                     }
+                }
+                else
+                {
+                    IsRightGridPress = false;
                 }
                 break;
             case State.SUMMON:

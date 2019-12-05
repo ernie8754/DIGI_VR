@@ -52,7 +52,7 @@ public abstract class SummonObj : MonoBehaviour
     }
     protected virtual void BirthBehavior() 
     {
-        if (ani["birth"].normalizedTime >= 1.0f)
+        if (ani["birth"].normalizedTime >= 0.9f)
         {
             state = State.FIND;
         }
@@ -60,20 +60,32 @@ public abstract class SummonObj : MonoBehaviour
     protected virtual void FindBehavior() { }
     protected virtual void MoveBehavior()
     {
-        if (Vector3.Distance(this.transform.position, Target.transform.position) <= AttackDistance)
+        if (Target && Vector3.Distance(this.transform.position, Target.transform.position) <= AttackDistance)
         {
             state = State.ATTACK;
+            ani.Play("attack");
             agent.isStopped = true;
         }
     }
+    float cooldown = 0;
     protected virtual void AttackBehavior() 
     {
-        ani.Play("attack");
-        bool HaveAttacked = false;
-        if (ani["attack"].normalizedTime >= 0.5f && !HaveAttacked)
+        if (!Target)
         {
-            HaveAttacked = true;
+            state = State.FIND;
+        }
+        if (Target && cooldown <= 0 && ani["attack"].normalizedTime >= 0.5f)
+        {
             attack(Target);
+            cooldown = 1.5f;
+        }
+        if (cooldown > 0)
+        {
+            cooldown-=Time.deltaTime;
+        }
+        else
+        {
+            ani.Play("attack");
         }
     }
     protected virtual void IdleBehavior() { }

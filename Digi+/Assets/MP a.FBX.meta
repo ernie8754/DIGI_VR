@@ -183,8 +183,8 @@ ModelImporter:
       name: attack
       takeName: Monocyte  aa
       firstFrame: 82
-      lastFrame: 105
-      wrapMode: 0
+      lastFrame: 114
+      wrapMode: 1
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0

@@ -13,7 +13,7 @@ ModelImporter:
     7400002: walk1
     7400004: walk2
     7400006: attack
-    7400008: die
+    7400008: death
     9500000: //RootNode
     11100000: //RootNode
   externalObjects: {}
@@ -157,7 +157,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: die
+      name: death
       takeName: CTC
       firstFrame: 118
       lastFrame: 150

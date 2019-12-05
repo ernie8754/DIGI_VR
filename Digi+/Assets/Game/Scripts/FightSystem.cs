@@ -66,12 +66,12 @@ public class FightSystem : MonoBehaviour
     public void deleteObj(Ally Obj)
     {
         Allies.Remove(Obj);
-        Destroy(Obj);
+        Destroy(Obj.gameObject);
     }
     public void deleteObj(Enemy Obj)
     {
         Enemies.Remove(Obj);
-        Destroy(Obj);
+        Destroy(Obj.gameObject);
     }
     #endregion
 }

@@ -60,6 +60,10 @@ public class ParabolaSys : MonoBehaviour
     {
         CurrentHand = obj;
     }
+    public void paraShut()
+    {
+        CurrentHand = null;
+    }
     /// <summary>
     /// 计算抛物线的点
     /// 此方法已经优化过性能

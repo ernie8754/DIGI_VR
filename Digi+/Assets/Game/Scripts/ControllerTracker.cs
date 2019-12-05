@@ -69,6 +69,7 @@ public class ControllerTracker : MonoBehaviour {
         swipeButtonPressed = controller.GetPress(swipeButton);
         if (swipeButtonDown)
         {
+
             Debug.Log("Swipe Button was just pressed");
         }
         if (swipeButtonUp)

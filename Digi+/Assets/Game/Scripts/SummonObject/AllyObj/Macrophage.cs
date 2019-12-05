@@ -5,8 +5,10 @@ using UnityEngine.AI;
 
 public class Macrophage : Ally  //巨噬細胞
 {
+    [SerializeField]private ParticleSystem particle;
     void Start()
     {
+        particle.Stop();
         agent = GetComponent<NavMeshAgent>();
         agent.speed = this.moveSpeed;
         //agent.Warp(new Vector3(-0.84f, 10,0));
@@ -49,14 +51,16 @@ public class Macrophage : Ally  //巨噬細胞
     protected override void MoveBehavior()
     {
         base.MoveBehavior();
-        if (ani.IsPlaying("walk1") && ani["walk1"].normalizedTime >= 1.0f )
+        if (ani.IsPlaying("walk1") && ani["walk1"].normalizedTime >= 0.9f )
         {
             ani.Play("walk2");
+            particle.Play();
             agent.isStopped = true;
         }
-        else if (ani.IsPlaying("walk2") && ani["walk2"].normalizedTime >= 1.0f)
+        else if (ani.IsPlaying("walk2") && ani["walk2"].normalizedTime >= 0.9f)
         {
             ani.Play("walk1");
+            particle.Stop();
             agent.isStopped = false;
         }
     }

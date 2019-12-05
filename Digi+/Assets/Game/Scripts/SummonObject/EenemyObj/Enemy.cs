@@ -6,8 +6,15 @@ public class Enemy : SummonObj
 {
     protected override void die()
     {
-        ani.Play("death");
-        if (ani["death"].normalizedTime >= 1.0f)
+        if (ani)
+        {
+            ani.Play("death");
+            if (ani["death"].normalizedTime >= 1.0f)
+            {
+                FightSystem.fightSystem.deleteObj(this);
+            }
+        }
+        else
         {
             FightSystem.fightSystem.deleteObj(this);
         }
