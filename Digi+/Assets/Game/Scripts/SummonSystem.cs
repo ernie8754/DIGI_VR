@@ -9,7 +9,6 @@ public class SummonSystem : MonoBehaviour
     {
         IDLE,
         AIMMING,
-        ENEMY_AIMMING,
         SUMMON
     }
     public State state;
@@ -36,13 +35,18 @@ public class SummonSystem : MonoBehaviour
         switch (state)
         {
             case State.IDLE:
+                if (IsRightGridPress)
+                {
+                    IsRightGridPress = false;
+                   // Debug.Log(IsRightGridPress);
+                }
                 //toAimming(summmm);
                 break;
             case State.AIMMING:
                 if (IsRightGridPress && SummonObj)
                 {
                     IsRightGridPress = false;
-                    print("do");
+                    //print("do");
                     if (MousePosition())
                     {
                         state = State.SUMMON;
@@ -53,26 +57,8 @@ public class SummonSystem : MonoBehaviour
                         state = State.IDLE;
                     }
                 }
-                else
-                {
-                    IsRightGridPress = false;
-                }
                 break;
             case State.SUMMON:
-                break;
-            case State.ENEMY_AIMMING:
-                if (Input.GetMouseButtonDown(0))
-                {
-                    if (MousePosition())
-                    {
-                        state = State.SUMMON;
-                        summon(EneObj, mouseTarget);
-                    }
-                    else
-                    {
-                        state = State.IDLE;
-                    }
-                }
                 break;
             default:
                 break;
@@ -82,11 +68,6 @@ public class SummonSystem : MonoBehaviour
     {
         SummonObj = obj;
         state = State.AIMMING;
-    }
-    public void toAimming(Enemy obj)
-    {
-        EneObj = obj;
-        state = State.ENEMY_AIMMING;
     }
     public void rightGridPress()
     {
@@ -101,17 +82,20 @@ public class SummonSystem : MonoBehaviour
             var newObj = Instantiate(obj, new Vector3(pos.x, 5, pos.z), Quaternion.Euler(0,0,0));
             FightSystem.fightSystem.AddObj(newObj);
             energySystem.consume(obj.consumeEnergy);
+            paraSys.paraShut();
             state = State.IDLE;
         }
     }
-    public void summon(Enemy obj, Vector3 pos)
+    public bool EneWait=false;
+    public IEnumerator summonEneObj(Enemy obj, Vector3 pos)
     {
-        if (obj.consumeEnergy <= energySystem.playerEnergy)
-        {
-            var newObj = Instantiate(obj, pos, Quaternion.Euler(0, 0, 0));
-            FightSystem.fightSystem.AddObj(newObj);
-            state = State.IDLE;
-        }
+        EneWait = true;
+        yield return new WaitUntil(() => obj.consumeEnergy <= energySystem.enemyEnergy);
+        var newObj = Instantiate(obj, pos, Quaternion.Euler(0, 180, 0));
+        FightSystem.fightSystem.AddObj(newObj);
+        energySystem.EneConsume(obj.consumeEnergy);
+        EneWait = false;
+        //state = State.IDLE;
     }
     #endregion
     #region mouse position

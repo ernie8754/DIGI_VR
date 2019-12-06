@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class CCObj : Enemy  //肺癌細胞
+public class LeuObj : Ally
 {
     void Start()
     {
         HP = MaxHp;
         agent = GetComponent<NavMeshAgent>();
         agent.speed = this.moveSpeed;
+        //agent.Warp(new Vector3(-0.84f, 10,0));
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (IsDead)

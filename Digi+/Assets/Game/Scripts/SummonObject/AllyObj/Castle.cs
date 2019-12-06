@@ -1,15 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class CCObj : Enemy  //肺癌細胞
+public class Castle : Ally
 {
+    // Start is called before the first frame update
     void Start()
     {
         HP = MaxHp;
-        agent = GetComponent<NavMeshAgent>();
-        agent.speed = this.moveSpeed;
+        state = State.FIND;
     }
 
     // Update is called once per frame
@@ -44,18 +43,32 @@ public class CCObj : Enemy  //肺癌細胞
                 break;
         }
     }
-    protected override void move()
+    protected override void FindBehavior()
     {
-        if (Target)
+        Target = FightSystem.fightSystem.findTarget(this);
+        if(Vector3.Distance(this.transform.position, Target.transform.position) <= AttackDistance)
         {
-            agent.SetDestination(Target.transform.position);
-            ani.Play("walk");
-            state = State.MOVE;
+            state = State.ATTACK;
         }
     }
-    protected override void MoveBehavior()
+    protected override void AttackBehavior()
     {
-        base.MoveBehavior();
-        ani.Play("walk");
+        if (!Target || Vector3.Distance(this.transform.position, Target.transform.position) > AttackDistance)
+        {
+            state = State.FIND;
+        }
+        if (Target && cooldown <= 0 )
+        {
+            Target.hurt(ATK);
+            cooldown = 1.5f;
+        }
+        if (cooldown > 0)
+        {
+            cooldown -= Time.deltaTime;
+        }
+    }
+    protected override void die()
+    {
+        GameManager.gameManager.PlayerLose();
     }
 }

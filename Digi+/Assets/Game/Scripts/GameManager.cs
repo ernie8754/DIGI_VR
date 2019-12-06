@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public Transform testCube;
     public ParabolaSys para;
+    public static GameManager gameManager;
     public enum state
     {
         WAIT,
@@ -18,12 +19,20 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        para.paraStart(testCube);
+        gameManager = this;
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+    public void PlayerLose()
+    {
+
+    }
+    public void PlayerWin()
+    {
+
     }
 }

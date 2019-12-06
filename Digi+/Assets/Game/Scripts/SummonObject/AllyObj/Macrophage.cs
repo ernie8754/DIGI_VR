@@ -8,6 +8,7 @@ public class Macrophage : Ally  //巨噬細胞
     [SerializeField]private ParticleSystem particle;
     void Start()
     {
+        HP = MaxHp;
         particle.Stop();
         agent = GetComponent<NavMeshAgent>();
         agent.speed = this.moveSpeed;
@@ -15,6 +16,11 @@ public class Macrophage : Ally  //巨噬細胞
     }
     void Update()
     {
+        if (IsDead)
+        {
+            die();
+            return;
+        }
         switch (state)
         {
             case State.BIRTH:
@@ -33,7 +39,7 @@ public class Macrophage : Ally  //巨噬細胞
                 IdleBehavior();
                 break;
             case State.DIE:
-                die();
+               // die();
                 break;
             default:
                 break;
@@ -44,24 +50,28 @@ public class Macrophage : Ally  //巨噬細胞
         if (Target)
         {
             agent.SetDestination(Target.transform.position);
-            ani.Play("walk1");
+           // ani.Play("walk1");
             state = State.MOVE;
         }
     }
     protected override void MoveBehavior()
     {
         base.MoveBehavior();
+        if (!ani.isPlaying)
+        {
+            ani.Play("walk1");
+        }
         if (ani.IsPlaying("walk1") && ani["walk1"].normalizedTime >= 0.9f )
         {
             ani.Play("walk2");
             particle.Play();
-            agent.isStopped = true;
+            agent.isStopped = false;
         }
         else if (ani.IsPlaying("walk2") && ani["walk2"].normalizedTime >= 0.9f)
         {
             ani.Play("walk1");
             particle.Stop();
-            agent.isStopped = false;
+            agent.isStopped = true;
         }
     }
 }

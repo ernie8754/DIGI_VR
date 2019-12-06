@@ -127,7 +127,7 @@ ModelImporter:
       name: walk1
       takeName: Monocyte  aa
       firstFrame: 43
-      lastFrame: 73
+      lastFrame: 59
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -154,8 +154,8 @@ ModelImporter:
     - serializedVersion: 16
       name: walk2
       takeName: Monocyte  aa
-      firstFrame: 73
-      lastFrame: 91
+      firstFrame: 59
+      lastFrame: 73
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public abstract class SummonObj : MonoBehaviour
 {
     public int ATK;
-    public int HP;
+    public int MaxHp;
     public int moveSpeed;
     public int consumeEnergy;
     public int AttackDistance;
     public Animation ani;
-    
+
+    public int HP;
     protected SummonObj Target=null;
     protected NavMeshAgent agent;
+    protected bool IsDead=false;
+
+    [SerializeField] private Image HpBar;
 
     public enum State
     {
@@ -27,7 +32,7 @@ public abstract class SummonObj : MonoBehaviour
     public State state;
     protected virtual void attack(SummonObj obj)
     {
-        if (obj)
+        if (obj && obj.HP>0)
         {
             obj.hurt(ATK);
         }
@@ -36,6 +41,7 @@ public abstract class SummonObj : MonoBehaviour
     public virtual void hurt(int damage)
     {
         HP -= damage;
+        HpBar.fillAmount = HP * 1.0f / MaxHp;
         if (HP <= 0)
         {
             die();
@@ -63,14 +69,18 @@ public abstract class SummonObj : MonoBehaviour
         if (Target && Vector3.Distance(this.transform.position, Target.transform.position) <= AttackDistance)
         {
             state = State.ATTACK;
-            ani.Play("attack");
+            //ani.Play("attack");
             agent.isStopped = true;
         }
+        else
+        {
+            state = State.FIND;
+        }
     }
-    float cooldown = 0;
+    protected float cooldown = 0;
     protected virtual void AttackBehavior() 
     {
-        if (!Target)
+        if (!Target || Vector3.Distance(this.transform.position, Target.transform.position) > AttackDistance)
         {
             state = State.FIND;
         }

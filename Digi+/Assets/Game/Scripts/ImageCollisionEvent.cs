@@ -5,7 +5,8 @@ using UnityEngine.Events;
 
 public class ImageCollisionEvent : MonoBehaviour
 {
-    public UnityEvent imageCollide;
+    public UnityEvent imageCollideRight;
+    public UnityEvent imageCollideLeft;
     void Start()
     {
         
@@ -18,10 +19,14 @@ public class ImageCollisionEvent : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "GameController")
+        if (other.tag == "RightCon")
         {
             //Debug.Log("collide");
-            imageCollide.Invoke();
+            imageCollideRight.Invoke();
+        }
+        else if (other.tag == "LeftCon")
+        {
+            imageCollideLeft.Invoke();
         }
     }
 }

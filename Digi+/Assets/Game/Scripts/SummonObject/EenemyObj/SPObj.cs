@@ -8,6 +8,7 @@ public class SPObj : Enemy      //肺炎鏈球菌
     // Start is called before the first frame update
     void Start()
     {
+        HP = MaxHp;
         agent = GetComponent<NavMeshAgent>();
         agent.speed = this.moveSpeed;
     }
@@ -15,6 +16,11 @@ public class SPObj : Enemy      //肺炎鏈球菌
     // Update is called once per frame
     void Update()
     {
+        if (IsDead)
+        {
+            die();
+            return;
+        }
         switch (state)
         {
             case State.BIRTH:
@@ -33,7 +39,7 @@ public class SPObj : Enemy      //肺炎鏈球菌
                 IdleBehavior();
                 break;
             case State.DIE:
-                die();
+                //die();
                 break;
             default:
                 break;
@@ -44,22 +50,26 @@ public class SPObj : Enemy      //肺炎鏈球菌
         if (Target)
         {
             agent.SetDestination(Target.transform.position);
-            ani.Play("walk1");
+            //ani.Play("walk1");
             state = State.MOVE;
         }
     }
     protected override void MoveBehavior()
     {
         base.MoveBehavior();
-        if (ani.IsPlaying("walk1") && ani["walk1"].normalizedTime >= 1.0f)
-        {
-            ani.Play("walk2");
-            agent.isStopped = true;
-        }
-        else if (ani.IsPlaying("walk2") && ani["walk2"].normalizedTime >= 1.0f)
+        if (!ani.isPlaying)
         {
             ani.Play("walk1");
-            agent.isStopped = false;
+        }
+        if (ani.IsPlaying("walk1") && ani["walk1"].normalizedTime >= 0.9f)
+        {
+            ani.Play("walk2");
+            //agent.isStopped = false;
+        }
+        else if (ani.IsPlaying("walk2") && ani["walk2"].normalizedTime >= 0.9f)
+        {
+            ani.Play("walk1");
+            //agent.isStopped = true;
         }
     }
 }

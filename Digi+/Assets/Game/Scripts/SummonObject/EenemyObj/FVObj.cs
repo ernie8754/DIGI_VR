@@ -5,8 +5,10 @@ using UnityEngine.AI;
 
 public class FVObj : Enemy      //流感病毒
 {
+    [SerializeField] private ParticleSystem particle;
     void Start()
     {
+        HP = MaxHp;
         agent = GetComponent<NavMeshAgent>();
         agent.speed = this.moveSpeed;
     }
@@ -14,6 +16,11 @@ public class FVObj : Enemy      //流感病毒
     // Update is called once per frame
     void Update()
     {
+        if (IsDead)
+        {
+            die();
+            return;
+        }
         switch (state)
         {
             case State.BIRTH:
@@ -32,7 +39,7 @@ public class FVObj : Enemy      //流感病毒
                 IdleBehavior();
                 break;
             case State.DIE:
-                die();
+                //die();
                 break;
             default:
                 break;
@@ -51,5 +58,23 @@ public class FVObj : Enemy      //流感病毒
     {
         base.MoveBehavior();
         ani.Play("walk");
+    }
+    protected override void AttackBehavior()
+    {
+        if (!Target || Vector3.Distance(this.transform.position, Target.transform.position) > AttackDistance)
+        {
+            state = State.FIND;
+            return;
+        }
+        if (Target && cooldown <= 0 )
+        {
+            FightSystem.fightSystem.AOE_Attack(this, 5, ATK);
+            cooldown = 0.5f;
+        }
+        if (cooldown > 0)
+        {
+            cooldown -= Time.deltaTime;
+        }
+        //base.AttackBehavior();
     }
 }

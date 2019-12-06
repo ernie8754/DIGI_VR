@@ -8,6 +8,7 @@ public class HIObj : Enemy      //結核桿菌
     // Start is called before the first frame update
     void Start()
     {
+        HP = MaxHp;
         agent = GetComponent<NavMeshAgent>();
         agent.speed = this.moveSpeed;
     }
@@ -15,6 +16,11 @@ public class HIObj : Enemy      //結核桿菌
     // Update is called once per frame
     void Update()
     {
+        if (IsDead)
+        {
+            die();
+            return;
+        }
         switch (state)
         {
             case State.BIRTH:
@@ -33,7 +39,7 @@ public class HIObj : Enemy      //結核桿菌
                 IdleBehavior();
                 break;
             case State.DIE:
-                die();
+                //die();
                 break;
             default:
                 break;
@@ -44,13 +50,13 @@ public class HIObj : Enemy      //結核桿菌
         if (Target)
         {
             agent.SetDestination(Target.transform.position);
-            ani.Play("walk");
             state = State.MOVE;
         }
     }
     protected override void MoveBehavior()
     {
         base.MoveBehavior();
+        //print(Vector3.Distance(this.transform.position, Target.transform.position));
         ani.Play("walk");
     }
 }

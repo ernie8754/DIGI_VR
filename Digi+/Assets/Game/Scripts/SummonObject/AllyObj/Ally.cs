@@ -7,19 +7,18 @@ public class Ally : SummonObj
 {
     protected override void die()
     {
+        state = State.DIE;
+        IsDead = true;
         ani.Play("death");
-        if (ani["death"].normalizedTime >= 1.0f)
+        if (ani["death"].normalizedTime >= 0.9f)
         {
             FightSystem.fightSystem.deleteObj(this);
         }
     }
     protected override void FindBehavior()
     {
-        if (Target == null)
-        {
-            Target = FightSystem.fightSystem.findTarget(this);
-        }
-        else
+        Target = FightSystem.fightSystem.findTarget(this);
+        if(Target)
         {
             move();
         }

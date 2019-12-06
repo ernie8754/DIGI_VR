@@ -1,17 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class CTCObj : Ally //殺手T細胞
+public class ICFort : Enemy
 {
     // Start is called before the first frame update
     void Start()
     {
         HP = MaxHp;
-        agent = GetComponent<NavMeshAgent>();
-        agent.speed = this.moveSpeed;
-        //agent.Warp(new Vector3(-0.84f, 10,0));
+        state = State.FIND;
     }
     void Update()
     {
@@ -44,30 +41,33 @@ public class CTCObj : Ally //殺手T細胞
                 break;
         }
     }
-    protected override void move()
+    protected override void FindBehavior()
     {
-        if (Target)
+        Target = FightSystem.fightSystem.findTarget(this);
+        if (Vector3.Distance(this.transform.position, Target.transform.position) <= AttackDistance)
         {
-            agent.SetDestination(Target.transform.position);
-            state = State.MOVE;
+            state = State.ATTACK;
         }
     }
-    protected override void MoveBehavior()
+    protected override void AttackBehavior()
     {
-        base.MoveBehavior();
-        if (!ani.isPlaying)
+        if (!Target || Vector3.Distance(this.transform.position, Target.transform.position) > AttackDistance)
         {
-            ani.Play("walk1");
+            state = State.FIND;
         }
-        if (ani.IsPlaying("walk1") && ani["walk1"].normalizedTime >= 0.9f)
+        if (Target && cooldown <= 0)
         {
-            ani.Play("walk2");
-            agent.isStopped = false;
+            Target.hurt(ATK);
+            cooldown = 1.5f;
         }
-        else if (ani.IsPlaying("walk2") && ani["walk2"].normalizedTime >= 0.9f)
+        if (cooldown > 0)
         {
-            ani.Play("walk1");
-            agent.isStopped = true;
+            cooldown -= Time.deltaTime;
         }
+    }
+    protected override void die()
+    {
+        FightSystem.fightSystem.BigEneDie();
+        Destroy(this.gameObject);
     }
 }

@@ -14,12 +14,13 @@ public class EnergySystem : MonoBehaviour
     public state State;
     private int _playerEnergy;
     private int _enemyEnergy;
+    [SerializeField] private Image EnergyBar;
 
     public int playerEnergy { get { return _playerEnergy; } }
     public int enemyEnergy { get { return _enemyEnergy; } }
     public int SecPerEnergy;
     public int maxEnergy;
-    public Text EnergyText;
+    //public Text EnergyText;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +31,7 @@ public class EnergySystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        EnergyBar.fillAmount = playerEnergy * 1.0f / maxEnergy;
         timeCounter += Time.deltaTime;
         switch (State)
         {
@@ -40,7 +42,7 @@ public class EnergySystem : MonoBehaviour
                     EnemyEnergyAdd();
                     timeCounter -= SecPerEnergy;
                 }
-                EnergyText.text = _playerEnergy.ToString();
+                //EnergyText.text = _playerEnergy.ToString();
                 break;
             case state.END:
                 break;
@@ -65,5 +67,9 @@ public class EnergySystem : MonoBehaviour
     public void consume(int num)
     {
         _playerEnergy -= num;
+    }
+    public void EneConsume(int num)
+    {
+        _enemyEnergy -= num;
     }
 }

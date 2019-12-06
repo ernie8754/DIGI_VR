@@ -6,11 +6,15 @@ public class Enemy : SummonObj
 {
     protected override void die()
     {
+        state = State.DIE;
+        IsDead = true;
         if (ani)
         {
             ani.Play("death");
-            if (ani["death"].normalizedTime >= 1.0f)
+            
+            if (ani["death"].normalizedTime >= 0.9f)
             {
+                //Debug.Log("di");
                 FightSystem.fightSystem.deleteObj(this);
             }
         }
