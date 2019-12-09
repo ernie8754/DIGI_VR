@@ -23,7 +23,7 @@ public class SummonSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        energySystem.EnergyStart();
     }
 
     // Update is called once per frame
@@ -32,13 +32,17 @@ public class SummonSystem : MonoBehaviour
         //print(Input.GetAxis("Oculus_CrossPlatform_PrimaryHandTrigger"));
         //print(Input.GetButton("Oculus_CrossPlatform_PrimaryIndexTrigger"));
         //print(OVRInput.Get(OVRInput.Button.One, controller));
+        
+    }
+    public void summonUpdate()
+    {
         switch (state)
         {
             case State.IDLE:
                 if (IsRightGridPress)
                 {
                     IsRightGridPress = false;
-                   // Debug.Log(IsRightGridPress);
+                    // Debug.Log(IsRightGridPress);
                 }
                 //toAimming(summmm);
                 break;
@@ -63,11 +67,16 @@ public class SummonSystem : MonoBehaviour
             default:
                 break;
         }
+        energySystem.energyUpdate();
     }
-    public void toAimming(Ally obj)
+    public void toAimming(Ally obj, Transform ConTrans)
     {
-        SummonObj = obj;
-        state = State.AIMMING;
+        if (obj.consumeEnergy <= energySystem.playerEnergy)
+        {
+            paraSys.paraStart(ConTrans);
+            SummonObj = obj;
+            state = State.AIMMING;
+        }
     }
     public void rightGridPress()
     {

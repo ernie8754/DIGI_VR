@@ -48,13 +48,14 @@ public class LeuObj : Ally
         if (Target)
         {
             agent.SetDestination(Target.transform.position);
+            agent.isStopped = false;
             ani.Play("walk");
             state = State.MOVE;
         }
     }
     protected override void MoveBehavior()
     {
-        base.MoveBehavior();
         ani.Play("walk");
+        base.MoveBehavior();
     }
 }

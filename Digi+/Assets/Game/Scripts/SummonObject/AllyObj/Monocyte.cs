@@ -48,6 +48,8 @@ public class Monocyte : Ally     //單核球
         if (Target)
         {
             agent.SetDestination(Target.transform.position);
+            agent.isStopped = false;
+            //Debug.Log(agent.isStopped);
             //ani.Play("walk1");
             state = State.MOVE;
         }

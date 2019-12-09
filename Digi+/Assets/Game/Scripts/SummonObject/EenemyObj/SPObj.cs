@@ -50,6 +50,7 @@ public class SPObj : Enemy      //肺炎鏈球菌
         if (Target)
         {
             agent.SetDestination(Target.transform.position);
+            agent.isStopped = false;
             //ani.Play("walk1");
             state = State.MOVE;
         }

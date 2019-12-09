@@ -15,6 +15,7 @@ public class EnergySystem : MonoBehaviour
     private int _playerEnergy;
     private int _enemyEnergy;
     [SerializeField] private Image EnergyBar;
+    [SerializeField] private Text EnergyNum;
 
     public int playerEnergy { get { return _playerEnergy; } }
     public int enemyEnergy { get { return _enemyEnergy; } }
@@ -22,35 +23,25 @@ public class EnergySystem : MonoBehaviour
     public int maxEnergy;
     //public Text EnergyText;
     // Start is called before the first frame update
-    void Start()
+    public void EnergyStart()
     {
         _playerEnergy = 0;
         _enemyEnergy = 0;
+        EnergyBar.fillAmount = playerEnergy * 1.0f / maxEnergy;
     }
     private float timeCounter = 0;
     // Update is called once per frame
-    void Update()
+    public void energyUpdate()
     {
-        EnergyBar.fillAmount = playerEnergy * 1.0f / maxEnergy;
         timeCounter += Time.deltaTime;
-        switch (State)
+        if (timeCounter > SecPerEnergy)
         {
-            case state.FIGHT:
-                if (timeCounter > SecPerEnergy)
-                {
-                    playerEnergyAdd();
-                    EnemyEnergyAdd();
-                    timeCounter -= SecPerEnergy;
-                }
-                //EnergyText.text = _playerEnergy.ToString();
-                break;
-            case state.END:
-                break;
-            case state.WAIT:
-                break;
-            default:
-                break;
+            playerEnergyAdd();
+            EnemyEnergyAdd();
+            timeCounter -= SecPerEnergy;
         }
+        EnergyBar.fillAmount = playerEnergy * 1.0f / maxEnergy;
+        EnergyNum.text = playerEnergy.ToString();
     }
     private void playerEnergyAdd()
     {

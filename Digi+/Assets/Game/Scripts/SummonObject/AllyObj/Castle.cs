@@ -46,7 +46,7 @@ public class Castle : Ally
     protected override void FindBehavior()
     {
         Target = FightSystem.fightSystem.findTarget(this);
-        if(Vector3.Distance(this.transform.position, Target.transform.position) <= AttackDistance)
+        if(Target && Vector3.Distance(this.transform.position, Target.transform.position) <= AttackDistance)
         {
             state = State.ATTACK;
         }

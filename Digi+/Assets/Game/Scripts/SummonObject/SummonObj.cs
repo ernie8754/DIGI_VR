@@ -14,7 +14,7 @@ public abstract class SummonObj : MonoBehaviour
     public Animation ani;
 
     public int HP;
-    protected SummonObj Target=null;
+    [SerializeField] protected SummonObj Target=null;
     protected NavMeshAgent agent;
     protected bool IsDead=false;
 
@@ -52,8 +52,14 @@ public abstract class SummonObj : MonoBehaviour
         if (Target)
         {
             agent.SetDestination(Target.transform.position);
+            agent.isStopped = false;
+            Debug.Log(agent.isStopped);
             ani.Play("walk");
             state = State.MOVE;
+        }
+        else
+        {
+            state = State.FIND;
         }
     }
     protected virtual void BirthBehavior() 

@@ -50,6 +50,8 @@ public class FVObj : Enemy      //流感病毒
         if (Target)
         {
             agent.SetDestination(Target.transform.position);
+            agent.isStopped = false;
+            //Debug.Log(agent.isStopped);
             ani.Play("walk");
             state = State.MOVE;
         }

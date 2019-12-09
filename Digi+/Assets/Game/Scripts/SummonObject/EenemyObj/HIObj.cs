@@ -50,6 +50,7 @@ public class HIObj : Enemy      //結核桿菌
         if (Target)
         {
             agent.SetDestination(Target.transform.position);
+            agent.isStopped = false;
             state = State.MOVE;
         }
     }

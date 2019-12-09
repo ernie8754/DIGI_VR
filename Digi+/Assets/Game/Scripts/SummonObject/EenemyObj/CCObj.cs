@@ -49,6 +49,7 @@ public class CCObj : Enemy  //肺癌細胞
         if (Target)
         {
             agent.SetDestination(Target.transform.position);
+            agent.isStopped = false;
             ani.Play("walk");
             state = State.MOVE;
         }

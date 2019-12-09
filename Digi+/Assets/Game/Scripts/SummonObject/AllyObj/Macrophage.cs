@@ -50,7 +50,8 @@ public class Macrophage : Ally  //巨噬細胞
         if (Target)
         {
             agent.SetDestination(Target.transform.position);
-           // ani.Play("walk1");
+            agent.isStopped = false;
+            // ani.Play("walk1");
             state = State.MOVE;
         }
     }

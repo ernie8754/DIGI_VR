@@ -49,6 +49,8 @@ public class CTCObj : Ally //殺手T細胞
         if (Target)
         {
             agent.SetDestination(Target.transform.position);
+            agent.isStopped = false;
+            //Debug.Log(agent.isStopped);
             state = State.MOVE;
         }
     }

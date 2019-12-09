@@ -11,7 +11,7 @@ public class FightSystem : MonoBehaviour
     public List<Enemy> SummonEneList = new List<Enemy>();
     public SummonSystem summonSystem;
     public List<Transform> sumPlace = new List<Transform>();
-    public bool IsFight = false;
+    //public bool IsFight = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,13 +21,29 @@ public class FightSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsFight)
-        {
-            return;
-        }
+
+    }
+    public void fightUpadate()
+    {
         if (!summonSystem.EneWait)
         {
             StartCoroutine(summonSystem.summonEneObj(SummonEneList[Random.Range(0, SummonEneList.Count)], sumPlace[Random.Range(0, sumPlace.Count)].position));
+        }
+        summonSystem.summonUpdate();
+    }
+    public void endFight()
+    {
+        while (Allies.Count > 0)
+        {
+            Ally tmp = Allies[0];
+            Allies.RemoveAt(0);
+            Destroy(tmp.gameObject);
+        }
+        while (Enemies.Count > 0)
+        {
+            Enemy tmp = Enemies[0];
+            Enemies.RemoveAt(0);
+            Destroy(tmp.gameObject);
         }
     }
     #region Find Target
@@ -35,13 +51,13 @@ public class FightSystem : MonoBehaviour
     {
         float minDis = Mathf.Infinity;
         Enemy nearest = null;
-        foreach (var enemy in Enemies)
+        for(int i = 0; i < Enemies.Count; i++)
         {
-            float dis = Vector3.Distance(Obj.transform.position, enemy.transform.position);
+            float dis = Vector3.Distance(Obj.transform.position, Enemies[i].transform.position);
             if (dis < minDis)
             {
                 minDis = dis;
-                nearest = enemy;
+                nearest = Enemies[i];
             }
         }
         return nearest;
@@ -50,13 +66,13 @@ public class FightSystem : MonoBehaviour
     {
         float minDis = Mathf.Infinity;
         Ally nearest = null;
-        foreach (var ally in Allies)
+        for(int i = 0; i < Allies.Count; i++)
         {
-            float dis = Vector3.Distance(Obj.transform.position, ally.transform.position);
+            float dis = Vector3.Distance(Obj.transform.position, Allies[i].transform.position);
             if (dis < minDis)
             {
                 minDis = dis;
-                nearest = ally;
+                nearest = Allies[i];
             }
         }
         return nearest;
