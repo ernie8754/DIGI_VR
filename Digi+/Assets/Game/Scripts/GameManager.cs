@@ -31,6 +31,10 @@ public class GameManager : MonoBehaviour
     private float endWaitTime = 0;
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            SceneManager.LoadScene(0);
+        }
         switch (State)
         {
             case state.OPENING:
